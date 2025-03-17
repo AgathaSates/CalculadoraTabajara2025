@@ -1,12 +1,9 @@
-﻿using System.Xml.Linq;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-
-namespace Calculadora.ConsoleApp
+﻿namespace Calculadora.ConsoleApp
 {
     internal class Program
     {
         static int operacoes = 0;    //atributos staticos//para utilizar em toda a classe, o valor ser alterado mesmo dentro do metodo e não morrer la dentro
-        static string[] historico = new string[20];
+        static string[] historico = new string[50];
 
         static void Main(string[] args)
         {
@@ -17,37 +14,39 @@ namespace Calculadora.ConsoleApp
                 if (Sair(opcao))
                     break;
 
-                else if (Tabuada(opcao))
+                else if (opcao == 5)
                     MostrarTabuada();
 
-                else if (Historico(opcao))
+                else if (opcao == 6)
                     MostrarHistorico();
-               
+                
                 else
                     Resultado(Operacoes(opcao));
 
                 Console.Write(" -> Deseja Realizar outra operação? (S/N): "); // ao final de cada operação volta ao menu
                 string continuar = Console.ReadLine()!.ToUpper(); //"!" parar o aviso de warning
 
-                while (continuar.ToUpper() != "S" && continuar.ToUpper() != "N") //validação
+                while (continuar != "S" && continuar != "N") //validação
                 {
                     Console.Write("-> (X) Opção inválida! Digite novamente: ");
-                    continuar = Console.ReadLine()!; //"!" parar o aviso de warning
+                    continuar = Console.ReadLine()!.ToUpper(); //"!" parar o aviso de warning 
                 }
 
-                if (continuar.ToUpper() == "N")  //quebra o loop
+                if (continuar == "N")  //quebra o loop
                 {
                     Console.Clear();
-                    Console.WriteLine("Adeus!");
+                    Console.WriteLine("---------------------");
+                    Console.WriteLine(" Até a próxima!  0/ ");
+                    Console.WriteLine("---------------------");
                     break;
                 }
             }
-
-            static int Menu() // alterado para int por conta da validação
+           
+            static int Menu() // alterado para int para validação
             {
                 Console.Clear();
                 Console.WriteLine("--------------------------------");
-                Console.WriteLine(" Calculadora Tabajara 2025");
+                Console.WriteLine("    Calculadora Tabajara 2025");
                 Console.WriteLine("--------------------------------");
                 Console.WriteLine(" 1 - Somar");
                 Console.WriteLine(" 2 - Subtrair");
@@ -69,42 +68,32 @@ namespace Calculadora.ConsoleApp
             {
                 bool Sair = opcao == 7; //se ele digitou é verdadeiro então faz a função seguinte aonde ele foi chamado(menu)
                 Console.Clear();
-                Console.WriteLine("Adeus!"); //texto adeus
+                Console.WriteLine("---------------------");
+                Console.WriteLine(" Até a próxima!  0/ ");
+                Console.WriteLine("---------------------"); //texto adeus
                 return Sair;
-            }
-
-            static bool Tabuada(int opcao)
-            {
-                bool Tabuada = opcao == 5;
-                return Tabuada;
-            }
-
-            static bool Historico(int opcao)
-            {
-                bool Historico = opcao == 6;
-                return Historico;
-            }
+            }          
 
             static void MostrarTabuada()
             {
                 Console.Clear();
                 Console.WriteLine("--------------------------------");
-                Console.WriteLine(" Tabuada");
+                Console.WriteLine("            Tabuada");
                 Console.WriteLine("--------------------------------");
 
                 Console.Write(" -> Digite o número: ");
-                int numero;
-                while (!int.TryParse(Console.ReadLine(), out numero))   //validação de entrada
+                double numero;                                                                 // alterado para double para realizar tabuada de numeros com virgula
+                while (!double.TryParse(Console.ReadLine()!.Replace(".",","), out numero))   //validação de entrada com replace
                     Console.Write(" -> (X) Opção inválida! Digite novamente: ");
 
                 Console.Clear();
                 Console.WriteLine("--------------------------------");
-                Console.WriteLine($" Tabuada do {numero}");             // titulo
+                Console.WriteLine($"      Tabuada do {numero}");             // titulo
                 Console.WriteLine("--------------------------------");
 
-                for (int contador = 1; contador <= 10; contador++)
+                for (double contador = 1; contador <= 10; contador++)
                 {
-                    int resultadoTabuada = numero * contador;
+                    double resultadoTabuada = numero * contador;
                     Console.WriteLine($" {numero} x {contador} = {resultadoTabuada}");
                 }
                 Console.WriteLine("--------------------------------");
@@ -116,6 +105,7 @@ namespace Calculadora.ConsoleApp
                 Console.WriteLine("----- Histórico de operações -----"); //titulo
                 if (historico[0] == null)
                 {
+                    Console.WriteLine();
                     Console.WriteLine(" (X) Não há operações registradas.");
                     Console.WriteLine();
                 }
@@ -142,12 +132,12 @@ namespace Calculadora.ConsoleApp
 
                 Console.Write(" -> Digite o primeiro número: ");
                 double primeiroNumero;
-                while (!double.TryParse(Console.ReadLine(), out primeiroNumero)) //validaçao de entrada
+                while (!double.TryParse(Console.ReadLine()!.Replace(".",","), out primeiroNumero)) //validaçao de entrada
                     Console.Write(" -> (X) Número inválido! Digite novamente: ");
 
                 Console.Write(" -> Digite o segundo número: ");
                 double segundoNumero;
-                while (!double.TryParse(Console.ReadLine(), out segundoNumero)) //validaçao de entrada
+                while (!double.TryParse(Console.ReadLine()!.Replace(".", ","), out segundoNumero)) //validaçao de entrada
                     Console.Write(" -> (X) Número inválido! Digite novamente: ");
 
                 Console.WriteLine("-----------------------------");
@@ -186,9 +176,9 @@ namespace Calculadora.ConsoleApp
 
                 string resultadoInteiro = $" {primeiroNumero} {sinal} {segundoNumero} = {resultado.ToString("F2")}";//reformulei o resultado para mostrar toda a operação
 
-                historico[operacoes] = $" {resultadoInteiro}";//guarda no array a operação criando o historico
+                historico[operacoes] = $" {resultadoInteiro}"; //guarda no array a operação criando o historico
 
-                operacoes++;//pula para preencher o proximo bloco array
+                operacoes++; //pula para preencher o proximo bloco array
 
                 return resultadoInteiro;
             }
