@@ -3,9 +3,9 @@
 ![Status Desenvolvimento](https://img.shields.io/badge/Status-Em%20Desenvolvimento%20-yellow)
 
  ### Demonstração
-> Uma calculadora de console simples mas poderosa onde pode realizar as quatro operações matemáticas e a tabuada.
+ Uma calculadora de console simples mas poderosa onde pode realizar as quatro operações matemáticas e a tabuada.
 >
->![Demonstração do Projeto, gif imgur](https://i.imgur.com/jXp6Who.gif)
+>![Demonstração do Projeto, gif imgur](https://i.imgur.com/quobuk2.gif)
 
 
 
